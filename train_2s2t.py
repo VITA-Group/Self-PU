@@ -267,11 +267,11 @@ def main():
 
         plot_curve(stats_, args.modeldir, args.task_name, True)
         if (max(all_accuracy) > best_acc):
-            save_checkpoint({
+            torch.save({
                 'epoch': epoch + 1,
                 'state_dict': models[all_accuracy.index(max(all_accuracy))].state_dict(),
                 'best_prec1': best_acc1,
-            }, True, filename)
+            }, 'model_best.pth.tar')
             best_acc = max(all_accuracy)
 
         dataset_train1_noisy.shuffle()
