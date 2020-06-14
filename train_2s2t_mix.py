@@ -229,7 +229,8 @@ def main():
     best_acc2 = 0
     best_acc3 = 0
     best_acc4 = 0
-
+    best_acc = 0
+    
     for epoch in range(args.epochs):
         print("Self paced status: {}".format(check_self_paced(epoch)))
         print("Mean Teacher status: {}".format(check_mean_teacher(epoch)))
@@ -260,11 +261,11 @@ def main():
 
         plot_curve(stats_, args.modeldir, args.task_name, True)
         if (max(all_accuracy) > best_acc):
-            save_checkpoint({
+            torch.save({
                 'epoch': epoch + 1,
                 'state_dict': models[all_accuracy.index(max(all_accuracy))].state_dict(),
                 'best_prec1': best_acc1,
-            }, True, filename)
+            }, 'model_best.pth.tar')
             best_acc = max(all_accuracy)
 
         dataset_train1_noisy.shuffle()
