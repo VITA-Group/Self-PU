@@ -16,6 +16,7 @@ import os
 import time
 import argparse
 import numpy as np
+import random
 import shutil
 from tqdm import tqdm
 
@@ -83,7 +84,10 @@ results2 = None
 def main():
     global args, switched
     args = parser.parse_args()
-
+    if args.seed is not None:
+        random.seed(args.seed)
+        torch.manual_seed(args.seed)
+        cudnn.deterministic = True
     print(args)
     criterion = get_criterion()
     criterion_meta = PULoss(Probability_P=0.49, loss_fn="sigmoid_eps")
