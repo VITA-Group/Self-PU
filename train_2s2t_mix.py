@@ -1,5 +1,6 @@
 import torch
 import torch.nn.functional as F
+import torch.backends.cudnn as cudnn
 
 from torch.utils.data import DataLoader
 
