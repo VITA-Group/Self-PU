@@ -1,5 +1,5 @@
 # Self-PU
-
+Self-PU: Self Boosted and Calibrated Positive-Unlabeled Training
 
 # Set-up
 ## Environment
