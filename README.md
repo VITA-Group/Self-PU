@@ -1,5 +1,5 @@
-# Self-PU
-
+# Self-PU: Self Boosted and Calibrated Positive-Unlabeled Training
+[ICML2020] Xuxi Chen*, Wuyang Chen*, Tianlong Chen, Ye Yuan, Chen Gong, Kewei Chen, Zhangyang Wang
 
 # Set-up
 ## Environment
