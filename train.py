@@ -100,18 +100,18 @@ def main():
 
         dataset_train_clean = MNIST_Dataset(args.log_path, args.task_name, 1000, 60000, 
             trainX, _trainY, testX, _testY, split='train', ids=[],
-            increasing=args.increasing, replacement=args.replacement, mode=args.self_paced_type, top = args.top, type="clean", flex = args.flex, pickout = args.pickout)
+            increasing=args.increasing, replacement=args.replacement, mode=args.self_paced_type, top = args.top, type="clean", seed = args.seed)
         # clean dataset初始化为空
         dataset_train_noisy = MNIST_Dataset(args.log_path, args.task_name, 1000, 60000, 
             trainX, _trainY, testX, _testY, split='train',
-            increasing=args.increasing, replacement=args.replacement, mode=args.self_paced_type, top = args.top, type="noisy", flex = args.flex, pickout = args.pickout)
+            increasing=args.increasing, replacement=args.replacement, mode=args.self_paced_type, top = args.top, type="noisy", seed = args.seed)
 
         dataset_train_noisy.copy(dataset_train_clean) # 和clean dataset使用相同的随机顺序
         dataset_train_noisy.reset_ids() # 让初始化的noisy dataset使用全部数据
 
         dataset_test = MNIST_Dataset(args.log_path, args.task_name, 1000, 60000, 
             trainX, _trainY, testX, _testY, split='test',
-        increasing=args.increasing, replacement=args.replacement, mode=args.self_paced_type, top = args.top, type="clean", flex=args.flex, pickout = args.pickout)
+        increasing=args.increasing, replacement=args.replacement, mode=args.self_paced_type, top = args.top, type="clean", seed = args.seed)
     elif args.dataset == 'cifar':
         data_transforms = {
             'train': transforms.Compose([
@@ -129,18 +129,18 @@ def main():
         _trainY, _testY = binarize_cifar_class(trainY, testY)
         dataset_train_clean = CIFAR_Dataset(args.log_path, args.task_name, 1000, 50000, 
             trainX, _trainY, testX, _testY, split='train', ids=[],
-            increasing=args.increasing, replacement=args.replacement, mode=args.self_paced_type, top = args.top, transform = data_transforms['train'], type="clean", flex=args.flex)
+            increasing=args.increasing, replacement=args.replacement, mode=args.self_paced_type, top = args.top, transform = data_transforms['train'], type="clean", seed = args.seed)
         # clean dataset初始化为空
         dataset_train_noisy = CIFAR_Dataset(args.log_path, args.task_name, 1000, 50000, 
             trainX, _trainY, testX, _testY, split='train',
-            increasing=args.increasing, replacement=args.replacement, mode=args.self_paced_type, top = args.top, transform = data_transforms['train'], type="noisy", flex=args.flex)
+            increasing=args.increasing, replacement=args.replacement, mode=args.self_paced_type, top = args.top, transform = data_transforms['train'], type="noisy", seed = args.seed)
 
         dataset_train_noisy.copy(dataset_train_clean) # 和clean dataset使用相同的随机顺序
         dataset_train_noisy.reset_ids() # 让初始化的noisy dataset使用全部数据
 
         dataset_test = CIFAR_Dataset(args.log_path, args.task_name, 1000, 50000, 
             trainX, _trainY, testX, _testY, split='test',
-        increasing=args.increasing, replacement=args.replacement, mode=args.self_paced_type, top = args.top, transform = data_transforms['val'], type="clean", flex=args.flex)
+        increasing=args.increasing, replacement=args.replacement, mode=args.self_paced_type, top = args.top, transform = data_transforms['val'], type="clean", seed = args.seed)
 
         criterion.update_p(0.4)
 
