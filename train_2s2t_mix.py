@@ -106,25 +106,25 @@ def main():
                                     increasing=args.increasing,
                                     replacement=args.replacement,
                                     mode=args.self_paced_type,
-                                    top=args.top1, type="clean")
+                                    top=args.top1, type="clean", seed = args.seed)
         # clean dataset初始化为空
         dataset_train1_noisy = MNIST_Dataset_FixSample(args.log_path, args.task_name, args.num_p, 60000,
             trainX, _trainY, testX, _testY, split='train',
-            increasing=args.increasing, replacement=args.replacement, mode=args.self_paced_type, top = args.top1, type="noisy")
+            increasing=args.increasing, replacement=args.replacement, mode=args.self_paced_type, top = args.top1, type="noisy", seed = args.seed)
 
         dataset_train1_noisy.copy(dataset_train1_clean) # 和clean dataset使用相同的随机顺序
         dataset_train1_noisy.reset_ids() # 让初始化的noisy dataset使用全部数据
 
         dataset_test = MNIST_Dataset_FixSample(args.log_path, args.task_name, args.num_p, 60000,
             trainX, _trainY, testX, _testY, split='test',
-        increasing=args.increasing, replacement=args.replacement, mode=args.self_paced_type, type="clean")
+        increasing=args.increasing, replacement=args.replacement, mode=args.self_paced_type, type="clean", seed = args.seed)
 
         dataset_train2_noisy = MNIST_Dataset_FixSample(args.log_path, args.task_name, args.num_p, 60000,
             trainX, _trainY, testX, _testY, split='train',
-            increasing=args.increasing, replacement=args.replacement, mode=args.self_paced_type, top = args.top2, type="noisy")
+            increasing=args.increasing, replacement=args.replacement, mode=args.self_paced_type, top = args.top2, type="noisy", seed = args.seed)
         dataset_train2_clean = MNIST_Dataset_FixSample(args.log_path, args.task_name, args.num_p, 60000,
             trainX, _trainY, testX, _testY, split='train', ids=[],
-            increasing=args.increasing, replacement=args.replacement, mode=args.self_paced_type, top = args.top2, type="clean")
+            increasing=args.increasing, replacement=args.replacement, mode=args.self_paced_type, top = args.top2, type="clean", seed = args.seed)
         dataset_train2_noisy.copy(dataset_train1_noisy)
         dataset_train2_noisy.reset_ids()
         dataset_train2_clean.copy(dataset_train1_clean)
@@ -153,18 +153,18 @@ def main():
         _trainY, _testY = binarize_cifar_class(trainY, testY)
         dataset_train1_clean = CIFAR_Dataset(args.log_path, args.task_name, args.num_p, 50000, 
             trainX, _trainY, testX, _testY, split='train', ids=[],
-            increasing=args.increasing, replacement=args.replacement, mode=args.self_paced_type, top = args.top1, transform = data_transforms['train'], type="clean")
+            increasing=args.increasing, replacement=args.replacement, mode=args.self_paced_type, top = args.top1, transform = data_transforms['train'], type="clean", seed = args.seed)
         # clean dataset初始化为空
         dataset_train1_noisy = CIFAR_Dataset(args.log_path, args.task_name, args.num_p, 50000, 
             trainX, _trainY, testX, _testY, split='train',
-            increasing=args.increasing, replacement=args.replacement, mode=args.self_paced_type, top = args.top1, transform = data_transforms['train'], type="noisy")
+            increasing=args.increasing, replacement=args.replacement, mode=args.self_paced_type, top = args.top1, transform = data_transforms['train'], type="noisy", seed = args.seed)
 
         dataset_train1_noisy.copy(dataset_train1_clean) # 和clean dataset使用相同的随机顺序
         dataset_train1_noisy.reset_ids() # 让初始化的noisy dataset使用全部数据
 
         dataset_test = CIFAR_Dataset(args.log_path, args.task_name, args.num_p, 50000, 
             trainX, _trainY, testX, _testY, split='test',
-        increasing=args.increasing, replacement=args.replacement, mode=args.self_paced_type, transform = data_transforms['val'], type="clean")
+        increasing=args.increasing, replacement=args.replacement, mode=args.self_paced_type, transform = data_transforms['val'], type="clean", seed = args.seed)
 
         dataset_train2_noisy = CIFAR_Dataset(args.log_path, args.task_name, args.num_p, 50000, 
             trainX, _trainY, testX, _testY, split='train',
