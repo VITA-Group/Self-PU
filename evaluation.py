@@ -31,17 +31,6 @@ parser = argparse.ArgumentParser()
 parser.add_argument('--seed', type=int, default=None)
 parser.add_argument('--gpu', default=None, type=int, help='GPU id to use.')
 parser.add_argument('-j', '--workers', default=4, type=int, help='workers')
-
-
-parser.add_argument('--self-paced', type=boolean_string, default=True)
-parser.add_argument('--self-paced-start', type=int, default=10)
-parser.add_argument('--self-paced-stop', type=int, default=50)
-parser.add_argument('--self-paced-frequency', type=int, default=10)
-parser.add_argument('--self-paced-type', type=str, default = "A")
-
-parser.add_argument('--increasing', type=boolean_string, default=True)
-parser.add_argument('--replacement', type=boolean_string, default=True)
-
 parser.add_argument('--dataset', type=str, default="mnist")
 parser.add_argument('--datapath', type=str, default="")
 parser.add_argument('--model', type=str, default=None)
@@ -70,18 +59,31 @@ def main():
         (trainX, trainY), (testX, testY) = get_mnist()
         _trainY, _testY = binarize_mnist_class(trainY, testY)
 
-        dataset_test = MNIST_Dataset_FixSample(args.log_path, args.task_name, 1000, 60000, 
-            trainX, _trainY, testX, _testY, split='test',
-        increasing=args.increasing, replacement=args.replacement, mode=args.self_paced_type, type="clean",
+        dataset_test = MNIST_Dataset_FixSample('', args.task_name, 1000, 60000, 
+            trainX, _trainY, testX, _testY, split='test', type="clean",
         seed = args.seed)
 
     elif args.dataset == 'cifar':
+        data_transforms = {
+            'train': transforms.Compose([
+                transforms.ToPILImage(),
+                transforms.ToTensor(),
+                transforms.Normalize([0.485, 0.456, 0.406],
+                                     [0.229, 0.224, 0.225]),
+            ]),
+            'val': transforms.Compose([
+                transforms.ToPILImage(),
+                transforms.ToTensor(),
+                transforms.Normalize([0.485, 0.456, 0.406],
+                                     [0.229, 0.224, 0.225]),
+            ])
+        } 
+        
         (trainX, trainY), (testX, testY) = get_cifar()
         _trainY, _testY = binarize_cifar_class(trainY, testY)
 
-        dataset_test = CIFAR_Dataset(args.log_path, args.task_name, 1000, 50000, 
-            trainX, _trainY, testX, _testY, split='test',
-        increasing=args.increasing, replacement=args.replacement, mode=args.self_paced_type, transform = data_transforms['val'], type="clean",
+        dataset_test = CIFAR_Dataset('', args.task_name, 1000, 50000, 
+            trainX, _trainY, testX, _testY, split='test', transform = data_transforms['val'], type="clean",
         seed = args.seed)
 
     dataloader_test = DataLoader(dataset_test, batch_size=args.batch_size, num_workers=args.workers, shuffle=False, pin_memory=True)
