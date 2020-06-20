@@ -72,7 +72,8 @@ def main():
 
         dataset_test = MNIST_Dataset_FixSample(args.log_path, args.task_name, 1000, 60000, 
             trainX, _trainY, testX, _testY, split='test',
-        increasing=args.increasing, replacement=args.replacement, mode=args.self_paced_type, type="clean")
+        increasing=args.increasing, replacement=args.replacement, mode=args.self_paced_type, type="clean",
+        seed = args.seed)
 
     elif args.dataset == 'cifar':
         (trainX, trainY), (testX, testY) = get_cifar()

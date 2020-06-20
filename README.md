@@ -11,6 +11,10 @@ pip install opencv-python
 ## Preparing Data
 Download cifar-10 and extract it into `cifar/`. 
 
+# Evaluation
+## Pretrained Model
+CIFAR-10: [Google Drive](https://drive.google.com/file/d/1Ybzaph0355FYjxFlPorrJBiESo_6LfJC/view?usp=sharing "Google Drive")
+
 # Training
 ## Baseline
 ### MNIST
