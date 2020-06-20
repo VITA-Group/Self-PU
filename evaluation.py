@@ -86,7 +86,7 @@ def main():
             trainX, _trainY, testX, _testY, split='test', transform = data_transforms['val'], type="clean",
         seed = args.seed)
 
-    dataloader_test = DataLoader(dataset_test, batch_size=args.batch_size, num_workers=args.workers, shuffle=False, pin_memory=True)
+    dataloader_test = DataLoader(dataset_test, batch_size=1, num_workers=args.workers, shuffle=False, pin_memory=True)
     consistency_criterion = losses.softmax_mse_loss
     if args.dataset == 'mnist':
         model = create_model()
