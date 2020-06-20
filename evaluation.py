@@ -113,7 +113,7 @@ def validate(val_loader, model):
     losses = AverageMeter()
     pacc = AverageMeter()
     nacc = AverageMeter()
-    pnacc
+    pnacc = AverageMeter()
     model.eval()
     end = time.time()
     
@@ -132,7 +132,7 @@ def validate(val_loader, model):
             output = model(X)
             prediction = torch.sign(output).long()
             
-            pacc_, nacc_, pnacc_, psize = accuracy(predictions, T)
+            pacc_, nacc_, pnacc_, psize = accuracy(prediction, T)
             pacc.update(pacc_, X.size(0))
             nacc.update(nacc_, X.size(0))
             pnacc.update(pnacc_, X.size(0))
@@ -144,7 +144,7 @@ def validate(val_loader, model):
                 'PNACC4 {pnacc4.val:.3f} ({pnacc4.avg:.3f})\t'.format(
                 epoch, pnacc1=pnacc1, pnacc2=pnacc2, pnacc3=pnacc3, pnacc4 = pnacc4))
     print("=====================================")
-    return pacc.avg, nacc.avg, pnacc1.avg, pnacc2.avg, pnacc3.avg , pnacc4.avg
+    return pacc.avg, nacc.avg, pnacc.avg
 
 def create_model():
     model = Model(28*28)
@@ -153,25 +153,6 @@ def create_model():
 def create_cifar_model():
     model = CNN()
     return model
-
-def get_criterion():
-    weights = [float(args.weight), 1.0]
-    class_weights = torch.FloatTensor(weights)
-
-    class_weights = class_weights.cuda(args.gpu)
-    if args.loss == 'Xent':
-        criterion = PULoss(Probability_P=0.49, loss_fn="Xent")
-    elif args.loss == 'nnPU':
-        criterion = PULoss(Probability_P=0.49)
-    elif args.loss == 'Focal':
-        class_weights = torch.FloatTensor(weights).cuda(args.gpu)
-        criterion = FocalLoss(gamma=0, weight=class_weights, one_hot=False)
-    elif args.loss == 'uPU':
-        criterion = PULoss(Probability_P=0.49, nnPU=False)
-    elif args.loss == 'Xent_weighted':
-        criterion = torch.nn.CrossEntropyLoss(weight=class_weights)
-
-    return criterion
 
 class AverageMeter(object):
     """Computes and stores the average and current value"""
