@@ -137,12 +137,9 @@ def validate(val_loader, model):
             nacc.update(nacc_, X.size(0))
             pnacc.update(pnacc_, X.size(0))
 
-    print('Test [{0}]: \t'
-                'PNACC {pnacc1.val:.3f} ({pnacc1.avg:.3f})\t'
-                'PNACC2 {pnacc2.val:.3f} ({pnacc2.avg:.3f})\t'
-                'PNACC3 {pnacc3.val:.3f} ({pnacc3.avg:.3f})\t'
-                'PNACC4 {pnacc4.val:.3f} ({pnacc4.avg:.3f})\t'.format(
-                epoch, pnacc1=pnacc1, pnacc2=pnacc2, pnacc3=pnacc3, pnacc4 = pnacc4))
+    print('Test: \t'
+                'PNACC {pnacc.val:.3f} ({pnacc.avg:.3f})\t'.format(
+                pnacc=pnacc))
     print("=====================================")
     return pacc.avg, nacc.avg, pnacc.avg
 
