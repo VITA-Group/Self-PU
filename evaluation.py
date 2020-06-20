@@ -60,7 +60,7 @@ def main():
     args = parser.parse_args()
 
     print(args)
-    criterion = get_criterion()
+
     if args.seed is not None:
         random.seed(args.seed)
         torch.manual_seed(args.seed)
@@ -84,7 +84,6 @@ def main():
         increasing=args.increasing, replacement=args.replacement, mode=args.self_paced_type, transform = data_transforms['val'], type="clean",
         seed = args.seed)
 
-        criterion.update_p(0.4)
     dataloader_test = DataLoader(dataset_test, batch_size=args.batch_size, num_workers=args.workers, shuffle=False, pin_memory=True)
     consistency_criterion = losses.softmax_mse_loss
     if args.dataset == 'mnist':
