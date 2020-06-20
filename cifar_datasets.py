@@ -143,7 +143,7 @@ def make_cifar_dataset(dataset, n_labeled, n_unlabeled, mode="train", pn=False, 
 
 class CIFAR_Dataset(Dataset):
 
-    def __init__(self, logpath, taskname, n_labeled, n_unlabeled, trainX, trainY, testX, testY, type="noisy", split="train", mode="N", ids=None, pn=False, increasing=False, replacement=True, top = 0.5, transform = None, flex = 0, pickout = True, seed = None):
+    def __init__(self, n_labeled, n_unlabeled, trainX, trainY, testX, testY, type="noisy", split="train", mode="N", ids=None, pn=False, increasing=False, replacement=True, top = 0.5, transform = None, flex = 0, pickout = True, seed = None):
 
         self.X, self.Y, self.T, self.oids, self.prior = make_cifar_dataset(((trainX, trainY), (testX, testY)), n_labeled, n_unlabeled, mode=split, pn=pn, seed = seed)
         assert np.all(self.oids == np.linspace(0, len(self.X) - 1, len(self.X)))
@@ -156,13 +156,6 @@ class CIFAR_Dataset(Dataset):
 
         self.split = split
         self.mode = mode
-        self.logger = logging.getLogger()
-        self.logger.setLevel(logging.INFO)
-        logname = logpath + taskname + "_dataset.log"
-        if not os.path.exists(logpath):
-            os.mkdir(logpath)
-        fh = logging.FileHandler(logname, mode="w")
-        self.logger.addHandler(fh)
         self.type = type
         self.pos_ids = self.oids[self.Y == 1]
         self.pid = self.pos_ids
@@ -261,9 +254,7 @@ class CIFAR_Dataset(Dataset):
             neg_ids = np.array(neg_ids) 
             neg_label = self.T[neg_ids] # 获得neg_ids的真实标签
             correct = np.sum(neg_label < 1) # 抽取N的时候真实标签为-1
-
-            self.logger.info(correct) # 记录
-            self.logger.info(neg_ids) # 记录
+            
             print("Correct: {}/{}".format(correct, len(neg_ids))) # 打印
             if self.replacement:
                 self.ids = np.concatenate([self.pos_ids[:len(self.pos_ids) // 2], neg_ids]) # 如果置换的话，在ids的基础上加上neg_ids
@@ -294,8 +285,6 @@ class CIFAR_Dataset(Dataset):
             correct = np.sum(pos_label == 1) # 抽取N的时候真实标签为-1
 
             self.Y[pos_ids] = 1 # 将他们标注为1
-            self.logger.info(correct) # 记录
-            self.logger.info(pos_ids) # 记录
             print("Correct: {}/{}".format(correct, len(pos_ids))) # 打印
             if self.replacement:
                 self.ids = np.concatenate([self.pos_ids[:len(self.pos_ids) // 2], pos_ids]) # 如果置换的话，在ids的基础上加上neg_ids
@@ -336,10 +325,6 @@ class CIFAR_Dataset(Dataset):
             ncorrect = np.sum(neg_label < 1)
             self.pick_accuracy.append((pcorrect + ncorrect) * 1.0 / (len(pos_ids) * 2))
             self.P[pos_ids] = 1 # 将他们标注为1
-            self.logger.info(pcorrect) # 记录
-            self.logger.info(ncorrect)
-            self.logger.info(pos_ids) # 记录
-            self.logger.info(neg_ids)
             print("P Correct: {}/{}".format(pcorrect, len(pos_ids))) # 打印
             print("N Correct: {}/{}".format(ncorrect, len(neg_ids)))
             if self.replacement:

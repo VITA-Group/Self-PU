@@ -37,9 +37,7 @@ parser.add_argument('--momentum', default=0.9, type=float, metavar='M',
 parser.add_argument('--weight-decay', '--wd', default=5e-3, type=float,
                     metavar='W', help='weight decay (default: 1e-4)')
 
-parser.add_argument('--log-path', type=str, default='logs/', help='Log path')
 parser.add_argument('--modeldir', type=str, default="model/", help="Model path")
-parser.add_argument('--task-name', type=str, default="temp")
 parser.add_argument('--epochs', type=int, default=100)
 parser.add_argument('--loss', type=str, default='nnPU')
 parser.add_argument('--gpu', default=None, type=int, help='GPU id to use.')
@@ -137,8 +135,8 @@ def main():
         is_best = valPNacc > best_acc
         best_acc = max(valPNacc, best_acc)
         filename = []
-        filename.append(os.path.join(args.modeldir, args.task_name + '_checkpoint.pth.tar'))
-        filename.append(os.path.join(args.modeldir, args.task_name + '_model_best.pth.tar'))
+        filename.append(os.path.join(args.modeldir, 'checkpoint.pth.tar'))
+        filename.append(os.path.join(args.modeldir, 'model_best.pth.tar'))
 
         dataset_train_noisy.shuffle()
         #dataloader_train_clean = DataLoader(dataset_train_clean, batch_size=args.batch_size, num_workers=args.workers, shuffle=True, pin_memory=True)

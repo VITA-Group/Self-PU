@@ -37,10 +37,8 @@ parser.add_argument('--momentum', default=0.9, type=float, metavar='M',
                     help='momentum')
 parser.add_argument('--weight-decay', '--wd', default=5e-3, type=float,
                     metavar='W', help='weight decay (default: 1e-4)')
-parser.add_argument('--log-path', type=str, default='logs/', help='Log path')
 parser.add_argument('--modeldir', type=str, default="model/",
                     help="Model path")
-parser.add_argument('--task-name', type=str, default="temp")
 parser.add_argument('--epochs', type=int, default=200)
 parser.add_argument('--loss', type=str, default='nnPU')
 parser.add_argument('--gpu', default=None, type=int,
@@ -98,7 +96,7 @@ def main():
         _trainY, _testY = binarize_mnist_class(trainY, testY)
 
         dataset_train1_clean = \
-            MNIST_Dataset_FixSample(args.log_path, args.task_name, args.num_p,
+            MNIST_Dataset_FixSample(args.num_p,
                                     60000,
                                     trainX, _trainY, testX, _testY,
                                     split='train',
@@ -108,21 +106,21 @@ def main():
                                     mode=args.self_paced_type,
                                     top=args.top1, type="clean", seed = args.seed)
         # clean dataset初始化为空
-        dataset_train1_noisy = MNIST_Dataset_FixSample(args.log_path, args.task_name, args.num_p, 60000,
+        dataset_train1_noisy = MNIST_Dataset_FixSample(args.num_p, 60000,
             trainX, _trainY, testX, _testY, split='train',
             increasing=args.increasing, replacement=args.replacement, mode=args.self_paced_type, top = args.top1, type="noisy", seed = args.seed)
 
         dataset_train1_noisy.copy(dataset_train1_clean) # 和clean dataset使用相同的随机顺序
         dataset_train1_noisy.reset_ids() # 让初始化的noisy dataset使用全部数据
 
-        dataset_test = MNIST_Dataset_FixSample(args.log_path, args.task_name, args.num_p, 60000,
+        dataset_test = MNIST_Dataset_FixSample(args.num_p, 60000,
             trainX, _trainY, testX, _testY, split='test',
         increasing=args.increasing, replacement=args.replacement, mode=args.self_paced_type, type="clean", seed = args.seed)
 
-        dataset_train2_noisy = MNIST_Dataset_FixSample(args.log_path, args.task_name, args.num_p, 60000,
+        dataset_train2_noisy = MNIST_Dataset_FixSample(args.num_p, 60000,
             trainX, _trainY, testX, _testY, split='train',
             increasing=args.increasing, replacement=args.replacement, mode=args.self_paced_type, top = args.top2, type="noisy", seed = args.seed)
-        dataset_train2_clean = MNIST_Dataset_FixSample(args.log_path, args.task_name, args.num_p, 60000,
+        dataset_train2_clean = MNIST_Dataset_FixSample(args.num_p, 60000,
             trainX, _trainY, testX, _testY, split='train', ids=[],
             increasing=args.increasing, replacement=args.replacement, mode=args.self_paced_type, top = args.top2, type="clean", seed = args.seed)
         dataset_train2_noisy.copy(dataset_train1_noisy)
@@ -151,26 +149,26 @@ def main():
         } 
         (trainX, trainY), (testX, testY) = get_cifar()
         _trainY, _testY = binarize_cifar_class(trainY, testY)
-        dataset_train1_clean = CIFAR_Dataset(args.log_path, args.task_name, args.num_p, 50000, 
+        dataset_train1_clean = CIFAR_Dataset(args.num_p, 50000, 
             trainX, _trainY, testX, _testY, split='train', ids=[],
             increasing=args.increasing, replacement=args.replacement, mode=args.self_paced_type, top = args.top1, transform = data_transforms['train'], type="clean", seed = args.seed)
         # clean dataset初始化为空
-        dataset_train1_noisy = CIFAR_Dataset(args.log_path, args.task_name, args.num_p, 50000, 
+        dataset_train1_noisy = CIFAR_Dataset(args.num_p, 50000, 
             trainX, _trainY, testX, _testY, split='train',
             increasing=args.increasing, replacement=args.replacement, mode=args.self_paced_type, top = args.top1, transform = data_transforms['train'], type="noisy", seed = args.seed)
 
         dataset_train1_noisy.copy(dataset_train1_clean) # 和clean dataset使用相同的随机顺序
         dataset_train1_noisy.reset_ids() # 让初始化的noisy dataset使用全部数据
 
-        dataset_test = CIFAR_Dataset(args.log_path, args.task_name, args.num_p, 50000, 
+        dataset_test = CIFAR_Dataset(args.num_p, 50000, 
             trainX, _trainY, testX, _testY, split='test',
         increasing=args.increasing, replacement=args.replacement, mode=args.self_paced_type, transform = data_transforms['val'], type="clean", seed = args.seed)
 
-        dataset_train2_noisy = CIFAR_Dataset(args.log_path, args.task_name, args.num_p, 50000, 
+        dataset_train2_noisy = CIFAR_Dataset(args.num_p, 50000, 
             trainX, _trainY, testX, _testY, split='train',
             increasing=args.increasing, replacement=args.replacement, mode=args.self_paced_type, 
             transform = data_transforms['train'], top = args.top2, type="noisy")
-        dataset_train2_clean = CIFAR_Dataset(args.log_path, args.task_name, args.num_p, 50000, 
+        dataset_train2_clean = CIFAR_Dataset(args.num_p, 50000, 
             trainX, _trainY, testX, _testY, split='train', ids=[],
             increasing=args.increasing, replacement=args.replacement, mode=args.self_paced_type, 
             transform = data_transforms['train'], top = args.top2, type="clean")
@@ -265,7 +263,7 @@ def main():
 
             dataloader_train1_clean, dataloader_train1_noisy, dataloader_train2_clean, dataloader_train2_noisy = update_dataset(model1, model2, ema_model1, ema_model2, dataset_train1_clean, dataset_train1_noisy, dataset_train2_clean, dataset_train2_noisy, epoch)
 
-        plot_curve(stats_, args.modeldir, args.task_name, True)
+        plot_curve(stats_, args.modeldir, 'model', True)
         if (max(all_accuracy) > best_acc):
             torch.save({
                 'epoch': epoch + 1,

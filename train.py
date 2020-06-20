@@ -98,18 +98,18 @@ def main():
         _trainY, _testY = binarize_mnist_class(trainY, testY)
 
 
-        dataset_train_clean = MNIST_Dataset(args.log_path, args.task_name, 1000, 60000, 
+        dataset_train_clean = MNIST_Dataset(1000, 60000, 
             trainX, _trainY, testX, _testY, split='train', ids=[],
             increasing=args.increasing, replacement=args.replacement, mode=args.self_paced_type, top = args.top, type="clean", seed = args.seed)
         # clean dataset初始化为空
-        dataset_train_noisy = MNIST_Dataset(args.log_path, args.task_name, 1000, 60000, 
+        dataset_train_noisy = MNIST_Dataset(1000, 60000, 
             trainX, _trainY, testX, _testY, split='train',
             increasing=args.increasing, replacement=args.replacement, mode=args.self_paced_type, top = args.top, type="noisy", seed = args.seed)
 
         dataset_train_noisy.copy(dataset_train_clean) # 和clean dataset使用相同的随机顺序
         dataset_train_noisy.reset_ids() # 让初始化的noisy dataset使用全部数据
 
-        dataset_test = MNIST_Dataset(args.log_path, args.task_name, 1000, 60000, 
+        dataset_test = MNIST_Dataset(1000, 60000, 
             trainX, _trainY, testX, _testY, split='test',
         increasing=args.increasing, replacement=args.replacement, mode=args.self_paced_type, top = args.top, type="clean", seed = args.seed)
     elif args.dataset == 'cifar':
@@ -127,18 +127,18 @@ def main():
         } 
         (trainX, trainY), (testX, testY) = get_cifar()
         _trainY, _testY = binarize_cifar_class(trainY, testY)
-        dataset_train_clean = CIFAR_Dataset(args.log_path, args.task_name, 1000, 50000, 
+        dataset_train_clean = CIFAR_Dataset(1000, 50000, 
             trainX, _trainY, testX, _testY, split='train', ids=[],
             increasing=args.increasing, replacement=args.replacement, mode=args.self_paced_type, top = args.top, transform = data_transforms['train'], type="clean", seed = args.seed)
         # clean dataset初始化为空
-        dataset_train_noisy = CIFAR_Dataset(args.log_path, args.task_name, 1000, 50000, 
+        dataset_train_noisy = CIFAR_Dataset(1000, 50000, 
             trainX, _trainY, testX, _testY, split='train',
             increasing=args.increasing, replacement=args.replacement, mode=args.self_paced_type, top = args.top, transform = data_transforms['train'], type="noisy", seed = args.seed)
 
         dataset_train_noisy.copy(dataset_train_clean) # 和clean dataset使用相同的随机顺序
         dataset_train_noisy.reset_ids() # 让初始化的noisy dataset使用全部数据
 
-        dataset_test = CIFAR_Dataset(args.log_path, args.task_name, 1000, 50000, 
+        dataset_test = CIFAR_Dataset(1000, 50000, 
             trainX, _trainY, testX, _testY, split='test',
         increasing=args.increasing, replacement=args.replacement, mode=args.self_paced_type, top = args.top, transform = data_transforms['val'], type="clean", seed = args.seed)
 
@@ -246,14 +246,14 @@ def main():
         is_best = valPNacc > best_acc
         best_acc = max(valPNacc, best_acc)
         filename = []
-        filename.append(os.path.join(args.modeldir, args.task_name + '_checkpoint.pth.tar'))
-        filename.append(os.path.join(args.modeldir, args.task_name + '_model_best.pth.tar'))
+        filename.append(os.path.join(args.modeldir, 'checkpoint.pth.tar'))
+        filename.append(os.path.join(args.modeldir, 'model_best.pth.tar'))
 
         if (check_self_paced(epoch)) and (epoch - args.self_paced_start) % args.self_paced_frequency == 0:
 
             dataloader_train_clean, dataloader_train_noisy = update_dataset(model, ema_model, dataset_train_clean, dataset_train_noisy, epoch)
 
-        plot_curve(stats_, args.modeldir, args.task_name, True)
+        plot_curve(stats_, args.modeldir, 'model', True)
         save_checkpoint({
             'epoch': epoch + 1,
             'state_dict': model.state_dict(),
@@ -266,7 +266,6 @@ def main():
         dataloader_train_noisy = DataLoader(dataset_train_noisy, batch_size=args.batch_size, num_workers=args.workers, shuffle=False, pin_memory=True)
     print(best_acc)
     print(val)
-    np.save('{}.npy'.format(args.task_name), np.array(dataset_train_clean.pick_accuracy))
 
 def train(clean_loader, noisy_loader, model, ema_model, criterion, consistency_criterion, optimizer, scheduler,  epoch, warmup = False, self_paced_pick = 0):
 

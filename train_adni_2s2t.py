@@ -38,10 +38,8 @@ parser.add_argument('--momentum', default=0.9, type=float, metavar='M',
                     help='momentum')
 parser.add_argument('--weight-decay', '--wd', default=5e-3, type=float,
                     metavar='W', help='weight decay (default: 1e-4)')
-
-parser.add_argument('--log-path', type=str, default='logs/', help='Log path')
+)
 parser.add_argument('--modeldir', type=str, default="model/", help="Model path")
-parser.add_argument('--task-name', type=str, default="temp")
 parser.add_argument('--epochs', type=int, default=100)
 parser.add_argument('--loss', type=str, default='nnPU')
 parser.add_argument('--gpu', default=None, type=int, help='GPU id to use.')
@@ -189,14 +187,14 @@ def main():
         best_acc3 = max(valPNacc3, best_acc3)
         best_acc4 = max(valPNacc4, best_acc4)
         filename = []
-        filename.append(os.path.join(args.modeldir, args.task_name + '_checkpoint.pth.tar'))
-        filename.append(os.path.join(args.modeldir, args.task_name + '_model_best.pth.tar'))
+        filename.append(os.path.join(args.modeldir, 'checkpoint.pth.tar'))
+        filename.append(os.path.join(args.modeldir, 'model_best.pth.tar'))
 
         if (check_self_paced(epoch)) and (epoch - args.self_paced_start) % args.self_paced_frequency == 0:
 
             dataloader_train1_clean, dataloader_train1_noisy, dataloader_train2_clean, dataloader_train2_noisy = update_dataset(model1, model2, ema_model1, ema_model2, dataset_train1_clean, dataset_train1_noisy, dataset_train2_clean, dataset_train2_noisy, epoch)
 
-        plot_curve(stats_, args.modeldir, args.task_name, True)
+        plot_curve(stats_, args.modeldir, 'model', True)
         save_checkpoint({
             'epoch': epoch + 1,
             'state_dict': model1.state_dict(),
