@@ -59,7 +59,7 @@ def main():
         (trainX, trainY), (testX, testY) = get_mnist()
         _trainY, _testY = binarize_mnist_class(trainY, testY)
 
-        dataset_test = MNIST_Dataset_FixSample('', '', 1000, 60000, 
+        dataset_test = MNIST_Dataset_FixSample(1000, 60000, 
             trainX, _trainY, testX, _testY, split='test', type="clean",
         seed = args.seed)
 
@@ -82,7 +82,7 @@ def main():
         (trainX, trainY), (testX, testY) = get_cifar()
         _trainY, _testY = binarize_cifar_class(trainY, testY)
 
-        dataset_test = CIFAR_Dataset('', '', 1000, 50000, 
+        dataset_test = CIFAR_Dataset(1000, 50000, 
             trainX, _trainY, testX, _testY, split='test', transform = data_transforms['val'], type="clean",
         seed = args.seed)
 
