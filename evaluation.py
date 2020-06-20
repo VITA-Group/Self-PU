@@ -97,7 +97,6 @@ def main():
     else:
         model = model.cuda()
 
-    stats_ = stats(args.modeldir, 0)
     print("Evaluation mode!")
     
     if args.model is None:
