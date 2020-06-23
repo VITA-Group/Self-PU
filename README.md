@@ -52,11 +52,11 @@ Training with self-calibation would be expensive. A cheap alternative:
 ### MNIST
 
 ```python
-python train_2s2t.py 
+python train_2s2t.py --soft-label
 ```
 ### CIFAR-10
 ```python
-python train_2s2t.py --dataset cifar --datapath cifar --lr 5e-4  
+python train_2s2t.py --dataset cifar --datapath cifar --lr 5e-4 --soft-label
 ```
 
 ## Self-PU 
@@ -64,11 +64,11 @@ Training with self-calibation would be expensive. A cheap alternative:
 ### MNIST
 
 ```python
-python train_2s2t.py 
+python train_2s2t.py --soft-label
 ```
 ### CIFAR-10
 ```python
-python train_2s2t.py --dataset cifar --datapath cifar --lr 5e-4  
+python train_2s2t.py --dataset cifar --datapath cifar --lr 5e-4 --soft-label
 ```
 
 # Results
