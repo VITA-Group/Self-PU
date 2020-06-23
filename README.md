@@ -1,10 +1,17 @@
 # [Self-PU: Self Boosted and Calibrated Positive-Unlabeled Training](https://arxiv.org/abs/2006.11280)
 [ICML2020] Xuxi Chen*, Wuyang Chen*, Tianlong Chen, Ye Yuan, Chen Gong, Kewei Chen, Zhangyang Wang
 
+# Overview
+We proposed Self-PU Framework that introduces self-paced, self-calibrated and self-supervised learning to the PU field. 
+
+# Method
+- Self-paced learning: We gradually selected confident samples from the unlabeled set and assign labels to them. 
+- Self-calibrated learning: Find optimal weights for unlabeled samples in order to obtain more source of supervision.
+- Self-supervised learning: Fully exploit the learning ability of models by teacher-student structure. 
 # Set-up
 ## Environment
 ```
-conda install pytorch==0.4.1 cuda90 torchvision -c pytorch
+conda install pytorch==0.4.1 cuda92 torchvision -c pytorch
 conda install matplotlib scikit-learn tqdm
 pip install opencv-python
 ```
@@ -28,7 +35,6 @@ CIFAR-10:
 ```python
 python evaluation.py --model cifar.pth.tar --datapath cifar --dataset cifar
 ```
-
 
 # Training
 ## Baseline
