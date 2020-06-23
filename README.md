@@ -13,7 +13,22 @@ Download cifar-10 and extract it into `cifar/`.
 
 # Evaluation
 ## Pretrained Model
-CIFAR-10: [Google Drive](https://drive.google.com/file/d/1Ybzaph0355FYjxFlPorrJBiESo_6LfJC/view?usp=sharing "Google Drive")
+MNIST: [Google Drive](https://drive.google.com/file/d/1RjVAIv_zPvKraLiyh8Oeshifun4zkgrm/view?usp=sharing "Google Drive"),
+Accuracy: 94.45%
+
+CIFAR-10: [Google Drive](https://drive.google.com/file/d/1Ybzaph0355FYjxFlPorrJBiESo_6LfJC/view?usp=sharing "Google Drive"), Accuracy: 90.05%
+
+## Evaluation Code
+MNIST:
+```python
+python evaluation.py --model mnist.pth.tar 
+```
+
+CIFAR-10:
+```python
+python evaluation.py --model cifar.pth.tar --datapath cifar --dataset cifar
+```
+
 
 # Training
 ## Baseline
