@@ -71,7 +71,7 @@ parser.add_argument('--datapath', type=str, default="")
 
 parser.add_argument('--type', type=str, default="mu")
 parser.add_argument('--alpha', type=float, default=0.1)
-parser.add_argument('--gamma', type=float, default=1.0 / 16)
+parser.add_argument('--gamma', type=float, default=1.0 / 32)
 parser.add_argument('--num-p', type=int, default=1000)
 step = 0
 results = np.zeros(61000)
