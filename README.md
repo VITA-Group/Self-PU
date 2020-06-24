@@ -8,6 +8,8 @@ We proposed Self-PU Framework that introduces self-paced, self-calibrated and se
 - Self-paced learning: We gradually selected confident samples from the unlabeled set and assign labels to them. 
 - Self-calibrated learning: Find optimal weights for unlabeled samples in order to obtain more source of supervision.
 - Self-supervised learning: Fully exploit the learning ability of models by teacher-student structure. 
+
+![framework](framework.png)
 # Set-up
 ## Environment
 ```
@@ -66,13 +68,14 @@ Training with self-calibation would be expensive. A cheap alternative:
 ```python
 python train_2s2t.py --soft-label
 ```
+
 ### CIFAR-10
 ```python
 python train_2s2t.py --dataset cifar --datapath cifar --lr 5e-4 --soft-label
 ```
 
-# Results
 ## Reproduce
-
-
-
+| Dataset | Accuracy | 
+| ---- | ---- |
+| MNIST | 94.45% | 
+| CIFAR-10 | 89.79% | 
