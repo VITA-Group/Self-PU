@@ -2,6 +2,11 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
+def weights_init(m):
+    if isinstance(m, (nn.Conv2d, nn.Linear)):
+        nn.init.xavier_normal_(m.weight)
+        nn.init.constant_(m.bias, 0.0)
+
 class MultiLayerPerceptron(nn.Module):
     def __init__(self, dim):
         super(MultiLayerPerceptron, self).__init__()
@@ -15,6 +20,8 @@ class MultiLayerPerceptron(nn.Module):
         self.l4 = nn.Linear(300, 300, bias=False)
         self.bn4 = nn.BatchNorm1d(300)
         self.l5 = nn.Linear(300, 1)
+        
+        self.apply(weights_init)
 
     def forward(self, x):
         x = self.l1(x)
@@ -58,6 +65,8 @@ class CNN(nn.Module):
         self.l1 = nn.Linear(640, 1000)
         self.l2 = nn.Linear(1000, 1000)
         self.l3 = nn.Linear(1000, 1)
+        
+        self.apply(weights_init)
 
     def forward(self, x):
 

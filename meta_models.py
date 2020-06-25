@@ -11,6 +11,11 @@ def to_var(x, requires_grad=True):
         x = x.cuda()
     return Variable(x, requires_grad=requires_grad)
 
+def weights_init(m):
+    if isinstance(m, (nn.Conv2d, nn.Linear)):
+        nn.init.xavier_normal_(m.weight)
+        nn.init.constant_(m.bias, 0.0)
+
 class MetaModule(nn.Module):
     # adopted from: Adrien Ecoffet https://github.com/AdrienLE
     def parameters(self):
@@ -322,6 +327,7 @@ class MetaMLP(MetaModule):
         self.l4 = MetaLinear(300, 300, bias=False)
         self.bn4 = MetaBatchNorm1d(num_features = 300)
         self.l5 = MetaLinear(300, 1)
+        self.apply(weights_init)
     def forward(self, x):
         x = self.l1(x)
         x = self.bn1(x)
@@ -364,6 +370,7 @@ class MetaCNN(MetaModule):
         self.l1 = MetaLinear(640, 1000)
         self.l2 = MetaLinear(1000, 1000)
         self.l3 = MetaLinear(1000, 1)
+        self.apply(weights_init)
 
     def forward(self, x):
 
