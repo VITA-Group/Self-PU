@@ -58,7 +58,7 @@ python train_2s2t.py --soft-label
 ```
 ### CIFAR-10
 ```python
-python train_2s2t.py --dataset cifar --datapath cifar --lr 5e-4 --soft-label
+python train_2s2t.py --dataset cifar --datapath cifar --soft-label
 ```
 
 ## Self-PU 
@@ -71,7 +71,7 @@ python train_2s2t.py --soft-label
 
 ### CIFAR-10
 ```python
-python train_2s2t.py --dataset cifar --datapath cifar --lr 5e-4 --soft-label
+python train_2s2t.py --dataset cifar --datapath cifar --soft-label
 ```
 
 ## Reproduce
