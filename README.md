@@ -75,7 +75,9 @@ python train_2s2t.py --dataset cifar --datapath cifar --lr 5e-4 --soft-label
 ```
 
 ## Reproduce
-| Dataset | Accuracy | 
-| ---- | ---- |
-| MNIST | 94.45% | 
-| CIFAR-10 | 89.79% | 
+| Seed | Accuracy on MNIST | Accuracy on CIFAR-10 |
+| ---- | ---- | ---- |
+| 3  | 93.87% | 89.68% | 
+| 13 | 94.68% | 90.15% |
+| 23 | 94.44% | 89.38% |
+| 33 | 93.84% | 89.69% |
