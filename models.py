@@ -5,7 +5,8 @@ import torch.nn.functional as F
 def weights_init(m):
     if isinstance(m, (nn.Conv2d, nn.Linear)):
         nn.init.kaiming_normal_(m.weight)
-        nn.init.constant_(m.bias, 0.0)
+        if m.bias is not None:
+            nn.init.constant_(m.bias, 0.0)
 
 class MultiLayerPerceptron(nn.Module):
     def __init__(self, dim):
