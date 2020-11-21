@@ -197,15 +197,6 @@ def main():
     if args.evaluation:
         print("Evaluation mode!")
     best_acc = 0
-    for epoch in range(args.warmup):
-        print("Warming up {}/{}".format(epoch + 1, args.warmup))
-
-        trainPacc, trainNacc, trainPNacc = train(dataloader_train_clean, dataloader_train_noisy, model, ema_model, criterion, consistency_criterion, optimizer, scheduler, -1, warmup = True)
-
-        valPacc, valNacc, valPNacc = validate(dataloader_test, model, ema_model, criterion, consistency_criterion, -1)
-
-        dataset_train_noisy.shuffle()
-        dataloader_train_noisy = DataLoader(dataset_train_noisy, batch_size=args.batch_size, num_workers=args.workers, shuffle=False, pin_memory=True)
 
     val = []
     for epoch in range(args.epochs):
