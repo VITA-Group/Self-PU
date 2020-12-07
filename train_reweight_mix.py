@@ -324,7 +324,7 @@ def train(clean_loader, noisy_loader, model, ema_model, criterion, consistency_c
                 'PNACC {pnacc.val:.3f} ({pnacc.avg:.3f})\t'.format(
                 epoch, pacc=pacc, nacc=nacc, pnacc=pnacc))
 
-    if epoch <= args.noisy_stop:
+    if True:
         for i, (X, Y, _, T, ids, p) in enumerate(noisy_loader):
             xeps = torch.ones((X.shape[0], 2)).cuda() * 1e-10
             xeps[:, 1] = 0
@@ -484,7 +484,7 @@ def train_with_meta(clean_loader, noisy_loader, test_loader, model, ema_model, c
                 epoch, pacc=pacc, nacc=nacc, pnacc=pnacc))
 
 
-    if epoch <= args.noisy_stop:
+    if True:
         meta_step = 0
         
         for i, (X, Y, _, T, ids, p) in enumerate(noisy_loader):
@@ -834,7 +834,7 @@ def check_self_paced(epoch):
     else: return True
 
 def check_noisy(epoch):
-    if epoch >= args.self_paced_start and args.turnoff_noisy:
+    if epoch >= args.self_paced_start: #and args.turnoff_noisy:
         return False
     else:
         return True
